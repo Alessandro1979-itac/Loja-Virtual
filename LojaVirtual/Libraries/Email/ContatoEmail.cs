@@ -8,7 +8,6 @@ namespace LojaVirtual.Libraries.Email
     {
         public static void EnviarContatoPorEmail(Contato contato)
         {
-            //SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
             SmtpClient smtp = new SmtpClient("smtp.mail.yahoo.com", 587);
             smtp.UseDefaultCredentials = false;
             smtp.Credentials = new NetworkCredential("amcr_inf@yahoo.com.br", "");
