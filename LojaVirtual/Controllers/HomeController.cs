@@ -1,6 +1,8 @@
 ﻿using LojaVirtual.Libraries.Email;
+using LojaVirtual.Libraries.Login;
 using LojaVirtual.Models;
 using LojaVirtual.Repositories.Contracts;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,10 +15,12 @@ namespace LojaVirtual.Controllers
     {
         private IClienteRepository _repositoryCliente;
         private INewsletterRepository _repositoryNewsletter;
-        public HomeController(IClienteRepository repositoryCliente, INewsletterRepository repositoryNewsletter)
+        private LoginCliente _loginCliente;
+        public HomeController(IClienteRepository repositoryCliente, INewsletterRepository repositoryNewsletter, LoginCliente loginCliente)
         {
             _repositoryCliente = repositoryCliente;
             _repositoryNewsletter = repositoryNewsletter;
+            _loginCliente = loginCliente;
         }
 
         [HttpGet]
@@ -88,9 +92,42 @@ namespace LojaVirtual.Controllers
             return View("Contato");
         }
 
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login([FromForm] Cliente cliente)
+        {
+            Cliente clienteDB = _repositoryCliente.Login(cliente.Email, cliente.Senha);
+
+            if (clienteDB != null)
+            {
+                _loginCliente.Login(clienteDB);
+
+                return new RedirectResult(Url.Action(nameof(Painel)));
+            }
+            else
+            {
+                ViewData["MSG_E"] = "Usuário não encontrado, verifique o e-mail e senha digitado!";
+                return View();
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Painel()
+        {
+            Cliente cliente = _loginCliente.GetCliente();
+            if (cliente != null)
+            {
+                return new ContentResult() { Content = "Usuário " + cliente.Id + ". E-mail: " + cliente.Email + " - Idade: " + DateTime.Now.AddYears(-cliente.Nascimento.Year).ToString("yyyy") + ". Logado!" };
+            }
+            else
+            {
+                return new ContentResult() { Content = "Acesso negado." };
+            }
         }
 
         [HttpGet]
@@ -100,7 +137,7 @@ namespace LojaVirtual.Controllers
         }
 
         [HttpPost]
-        public IActionResult CadastroCliente([FromForm]Cliente cliente)
+        public IActionResult CadastroCliente([FromForm] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
