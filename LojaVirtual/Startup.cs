@@ -27,12 +27,15 @@ namespace LojaVirtual
             services.AddHttpContextAccessor();
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<INewsletterRepository, NewsletterRepository>();
+            services.AddScoped<IColaboradorRepository, ColaboradorRepository>();
+            services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 
             services.AddMemoryCache();
             services.AddSession(options => { });
 
             services.AddScoped<Sessao>();
             services.AddScoped<LoginCliente>();
+            services.AddScoped<LoginColaborador>();
 
             services.AddControllersWithViews();
 
@@ -56,7 +59,7 @@ namespace LojaVirtual
             }
             app.UseHttpsRedirection();
             app.UseDefaultFiles();
-			app.UseStaticFiles();
+            app.UseStaticFiles();
             app.UseSession();
 
             app.UseRouting();
@@ -66,8 +69,13 @@ namespace LojaVirtual
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                    name: "areas",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
             });
         }
     }
