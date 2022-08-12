@@ -42,13 +42,12 @@ namespace LojaVirtual.Areas.Colaborador.Controllers
         }
 
         [ColaboradorAutorizacao]
+        [ValidateHttpReferer]
         public IActionResult Logout()
         {
             _loginColaborador.Logout();
             return RedirectToAction("Login", "Home");
         }
-
-
 
         public IActionResult RecuperarSenha()
         {
@@ -59,8 +58,6 @@ namespace LojaVirtual.Areas.Colaborador.Controllers
         {
             return View();
         }
-
-
 
         [ColaboradorAutorizacao]
         public IActionResult Painel()

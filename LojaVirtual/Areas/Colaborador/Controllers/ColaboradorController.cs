@@ -2,6 +2,7 @@
 using LojaVirtual.Libraries.Filtro;
 using LojaVirtual.Libraries.Lang;
 using LojaVirtual.Libraries.Texto;
+using LojaVirtual.Models.Contants;
 using LojaVirtual.Repositories.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
@@ -9,7 +10,7 @@ using X.PagedList;
 namespace LojaVirtual.Areas.Colaborador.Controllers
 {
     [Area("Colaborador")]
-    [ColaboradorAutorizacao("G")]
+    [ColaboradorAutorizacao(ColaboradorTipoConstant.Gerente)]
     public class ColaboradorController : Controller
     {
         private IColaboradorRepository _colaboradorRespository;
@@ -39,7 +40,7 @@ namespace LojaVirtual.Areas.Colaborador.Controllers
             ModelState.Remove("Senha");
             if (ModelState.IsValid)
             {
-                colaborador.Tipo = "C";
+                colaborador.Tipo = ColaboradorTipoConstant.Comum;
                 colaborador.Senha = KeyGenerator.GetUniqueKey(8);
                 _colaboradorRespository.Cadastrar(colaborador);
                 _gerenciarEmail.EnviarSenhaParaColaboradorPorEmail(colaborador);
@@ -53,6 +54,7 @@ namespace LojaVirtual.Areas.Colaborador.Controllers
         }
 
         [HttpGet]
+        [ValidateHttpReferer]
         public IActionResult GerarSenha(int id)
         {
             Models.Colaborador colaborador = _colaboradorRespository.ObterColaborador(id);
@@ -89,6 +91,7 @@ namespace LojaVirtual.Areas.Colaborador.Controllers
         }
 
         [HttpGet]
+        [ValidateHttpReferer]
         public IActionResult Excluir(int id)
         {
             _colaboradorRespository.Excluir(id);
