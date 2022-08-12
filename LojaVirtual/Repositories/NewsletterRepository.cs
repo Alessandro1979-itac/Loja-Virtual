@@ -13,6 +13,7 @@ namespace LojaVirtual.Repositories
         {
             _banco = banco;
         }
+
         public void Cadastrar(NewsletterEmail newsletter)
         {
             _banco.NewsletterEmails.Add(newsletter);

@@ -1,5 +1,9 @@
 ﻿using LojaVirtual.Models;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LojaVirtual.Libraries.Login
 {
@@ -14,6 +18,7 @@ namespace LojaVirtual.Libraries.Login
 
         public void Login(Colaborador colaborador)
         {
+            //Serializar
             string colaboradorJSONString = JsonConvert.SerializeObject(colaborador);
 
             _sessao.Cadastrar(Key, colaboradorJSONString);
@@ -21,10 +26,11 @@ namespace LojaVirtual.Libraries.Login
 
         public Colaborador GetColaborador()
         {
+            //Deserializar
             if (_sessao.Existe(Key))
             {
                 string colaboradorJSONString = _sessao.Consultar(Key);
-                return JsonConvert.DeserializeObject<Colaborador>(colaboradorJSONString);
+                return JsonConvert.DeserializeObject<Colaborador>(colaboradorJSONString); ;
             }
             else
             {

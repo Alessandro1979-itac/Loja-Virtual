@@ -6,6 +6,7 @@ namespace LojaVirtual.Repositories.Contracts
 {
     public interface ICategoriaRepository
     {
+        //CRUD
         void Cadastrar(Categoria categoria);
         void Atualizar(Categoria categoria);
         void Excluir(int Id);

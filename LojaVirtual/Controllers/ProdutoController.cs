@@ -1,15 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using LojaVirtual.Models;
+﻿using LojaVirtual.Models;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace LojaVirtual.Controllers
 {
     public class ProdutoController : Controller
     {
+        /*
+         * ActionResult
+         * IActionResult
+         */
         public ActionResult Visualizar()
         {
             Produto produto = GetProduto();
+
             return View(produto);
-            //return new ContentResult() { Content = "<h3>Produto -> Vizualizar</h3>", ContentType = "text/html" };
+            //return new ContentResult() { Content = "<h3>Produto -> Visualizar<h3>", ContentType = "text/html" };
         }
 
         private Produto GetProduto()

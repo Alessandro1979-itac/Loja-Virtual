@@ -1,11 +1,8 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
     ViewData["Title"] = "Contato";
     LojaVirtual.Models.Contato contato = (LojaVirtual.Models.Contato) ViewData["CONTATO"];
 }
-
 <main role="main">
     <br />
     <br />
@@ -30,8 +27,8 @@
                             <dt>SAC:</dt>
                             <dd>sac@lojavirtual.com.br</dd>
                         </dl>
-                    </div>
-                </div>
+                    </div> <!-- box.// -->
+                </div> <!-- code-wrap.// -->
             </aside>
             <aside class="col-sm-6">
 
@@ -39,18 +36,19 @@
                     # Contato
                 </h4>
                 <div>
-
                     <article class="card">
                         <div class="card-body p-5">
                             @if (ViewData["MSG_S"] != null)
                             {
                                 <p class="alert alert-success">@ViewData["MSG_S"]</p>
-
                             }
+
                             @if (ViewData["MSG_E"] != null)
                             {
                                 <p class="alert alert-danger">@Html.Raw(ViewData["MSG_E"])</p>
                             }
+
+
                             <form role="form" method="post" action="/Home/ContatoAcao">
                                 <div class="form-group">
                                     <label for="nome">Nome</label>
@@ -69,7 +67,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fa fa-at"></i></span>
                                         </div>
-                                        <input type="text" id="email" class="form-control" name="email" placeholder="" value="@(contato != null ? contato.Email : "")">
+                                        <input type="text" class="form-control" name="email" id="email" placeholder=""  value="@(contato != null ? contato.Email : "")">
                                     </div>
                                 </div>
 
@@ -78,8 +76,7 @@
                                         <div class="form-group">
                                             <label for="texto"><span class="hidden-xs">Texto</span> </label>
                                             <div class="form-inline">
-                                                <textarea class="form-control" id="texto" name="texto" style="width:100%">@(contato != null ? contato.Texto : "")</textarea>
-
+                                                <textarea class="form-control" name="texto" id="texto" style="width:100%">@(contato != null ? contato.Texto : "")</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -88,9 +85,7 @@
                             </form>
                         </div>
                     </article>
-
                 </div>
-
             </aside>
         </div>
     </div>

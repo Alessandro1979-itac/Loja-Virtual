@@ -9,6 +9,7 @@ namespace LojaVirtual.Repositories
     public class ClienteRepository : IClienteRepository
     {
         private LojaVirtualContext _banco;
+
         public ClienteRepository(LojaVirtualContext banco)
         {
             _banco = banco;

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@inject LojaVirtual.Libraries.Login.LoginColaborador colaborador
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="utf-8">
@@ -8,9 +9,9 @@
     <meta name="generator" content="Jekyll v3.8.5">
     <title>@ViewBag.Title</title>
 
+    <!-- Bootstrap core CSS -->
     <link href="~/resources/lib/bootstrap-4.2.1-dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/resources/lib/pagedlist/PagedList.css" rel="stylesheet" type="text/css" />
-
 
     <style>
         .bd-placeholder-img {
@@ -28,6 +29,7 @@
             }
         }
     </style>
+    <!-- Custom styles for this template -->
     <link href="~/resources/lib/dashboard/dashboard.css" rel="stylesheet">
 </head>
 <body>
@@ -64,6 +66,15 @@
                                 Produtos
                             </a>
                         </li>
+                        @if (colaborador.GetColaborador().Tipo == "G")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Colaborador" asp-action="Index">
+                                    <span data-feather="users"></span>
+                                    Colaborador
+                                </a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <span data-feather="users"></span>
@@ -76,6 +87,7 @@
                                 Pedidos
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <span data-feather="bar-chart-2"></span>
@@ -120,7 +132,9 @@
             </nav>
 
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
                 @RenderBody()
+
             </main>
         </div>
     </div>
