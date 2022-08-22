@@ -6,7 +6,6 @@ namespace LojaVirtual.Libraries.Filtro
 {
     public class ValidateHttpRefererAttribute : Attribute, IActionFilter
     {
-
         public void OnActionExecuting(ActionExecutingContext context)
         {
             //Executado antes passar pelo controlador
@@ -28,7 +27,6 @@ namespace LojaVirtual.Libraries.Filtro
                 }
             }
         }
-
         public void OnActionExecuted(ActionExecutedContext context)
         {
             //Executado após passar pelo controlador
