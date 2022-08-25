@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using LojaVirtual.Libraries.Email;
+﻿using LojaVirtual.Libraries.Email;
+using LojaVirtual.Libraries.Filtro;
+using LojaVirtual.Libraries.Login;
 using LojaVirtual.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using LojaVirtual.Database;
 using LojaVirtual.Repositories.Contracts;
 using Microsoft.AspNetCore.Http;
-using LojaVirtual.Libraries.Login;
-using LojaVirtual.Libraries.Filtro;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace LojaVirtual.Controllers
 {
@@ -21,13 +18,15 @@ namespace LojaVirtual.Controllers
         private INewsletterRepository _repositoryNewsletter;
         private LoginCliente _loginCliente;
         private GerenciarEmail _gerenciarEmail;
+        private IProdutoRepository _produtoRepository;
 
-        public HomeController(IClienteRepository repositoryCliente, INewsletterRepository repositoryNewsletter, LoginCliente loginCliente, GerenciarEmail gerenciarEmail)
+        public HomeController(IProdutoRepository produtoRepository, IClienteRepository repositoryCliente, INewsletterRepository repositoryNewsletter, LoginCliente loginCliente, GerenciarEmail gerenciarEmail)
         {
             _repositoryCliente = repositoryCliente;
             _repositoryNewsletter = repositoryNewsletter;
             _loginCliente = loginCliente;
             _gerenciarEmail = gerenciarEmail;
+            _produtoRepository = produtoRepository;
         }
 
         [HttpGet]
@@ -53,10 +52,16 @@ namespace LojaVirtual.Controllers
             }
         }
 
+        public IActionResult Categoria()
+        {
+            return View();
+        }
+
         public IActionResult Contato()
         {
             return View();
         }
+
         public IActionResult ContatoAcao()
         {
             try
@@ -86,21 +91,17 @@ namespace LojaVirtual.Controllers
 
                     ViewData["MSG_E"] = sb.ToString();
                     ViewData["CONTATO"] = contato;
-                }
-
-                
+                }                
             }
             catch (Exception e)
             {
                 ViewData["MSG_E"] = "Opps! Tivemos um erro, tente novamente mais tarde!";
 
                 //TODO - Implementar Log
-            }
-            
+            }            
 
             return View("Contato");
         }
-
 
         [HttpGet]
         public IActionResult Login()
